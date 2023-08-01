@@ -60,7 +60,7 @@ app.use(function (err, res, req, next) {
 })
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`listening to ${port}`);
 })

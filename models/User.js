@@ -17,8 +17,8 @@ const schema = new mongoose.Schema({
     friends: { type: Array, default: [] },
     location: { type: String, default: "" },
     occupation: { type: String, default: "" },
-    viewedProfile: { type: Number, default: Math.floor(Math.random() * 1000) },
-    impressions: { type: Number, default: Math.floor(Math.random() * 1000) }
+    viewedProfile: { type: Number, default: () => Math.floor(Math.random() * 1000) },
+    impressions: { type: Number, default: () => Math.floor(Math.random() * 1000) }
 
 }, { timestamps: true });
 
@@ -34,12 +34,7 @@ const validate = (user) => {
         lastName: Joi.string().required().min(3).max(50),
         email: Joi.string().required().max(50).trim().email(),
         password: Joi.string().required().min(5).max(50),
-        picturePath: Joi.string(),
-        friends: Joi.array(),
-        location: Joi.string(),
-        occupation: Joi.string(),
-        viewedProfile: Joi.number(),
-        impression: Joi.number(),
+        // picturePath: Joi.any(),
     })
 
     return schema.validate(user);

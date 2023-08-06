@@ -33,8 +33,11 @@ const register = async (req, res) => {
 
     await user.save();
 
+    user = user.toObject();
     delete user.password;
-    res.header('x-auth-token', token).send(user);
+
+    res.setHeader('x-auth-token', token);
+    res.send(user);
 };
 
 

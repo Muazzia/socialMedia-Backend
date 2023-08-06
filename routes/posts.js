@@ -15,6 +15,11 @@ router.get('/:id/posts', verifyObjectId, async (req, res) => {
     res.send(posts);
 })
 
+router.get('/:id/allposts', verifyObjectId, async (req, res) => {
+    const posts = await Post.find({ userId: req.params.id });
+    res.send(posts);
+})
+
 
 router.put('/:id/like', verifyObjectId, async (req, res) => {
     if (!req.body.userId) return res.status(400).send('User id is requierd in body');

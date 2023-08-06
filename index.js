@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 require('express-async-errors');
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -19,6 +20,9 @@ const verifyToken = require('./middlewares/verifyToken');
 
 
 const app = express();
+app.use(cors({
+    exposedHeaders: ['x-auth-token'], // Include 'x-auth-token' in the exposed headers
+}));
 
 // Connecting to db
 mongoose.connect(process.env.db)

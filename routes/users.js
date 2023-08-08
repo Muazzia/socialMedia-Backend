@@ -33,6 +33,20 @@ router.get('/:id/friends', [verifyToken, verifyObjectId], async (req, res) => {
 });
 
 
+router.get('/:userName/userlist', verifyToken, async (req, res) => {
+    const userName = req.params.userName.toLowerCase();
+    const users = await User.find();
+    let list;
+    if (users) {
+        list = users.filter(u => {
+            return u.firstName.toLowerCase().includes(userName) || u.lastName.toLowerCase().includes(userName) || u.firstName.concat(' ' + u.lastName).toLowerCase().includes(userName) || u.firstName.concat(u.lastName).toLowerCase().includes(userName);
+        })
+    }
+
+    res.send(list);
+})
+
+
 router.put('/:id/:friendId', [verifyToken, verifyObjectId], async (req, res) => {
     const id = req.params.id;
     const friendId = req.params.friendId;

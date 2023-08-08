@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { Post } = require('../models/Post');
 const verifyObjectId = require('../middlewares/verifyObjectId');
+const verifyToken = require('../middlewares/verifyToken');
+
 
 const router = express.Router();
 
@@ -19,6 +21,13 @@ router.get('/:id/allposts', verifyObjectId, async (req, res) => {
     const posts = await Post.find({ userId: req.params.id });
     res.send(posts);
 })
+
+router.delete('/:id', [verifyToken, verifyObjectId], async (req, res) => {
+    const post = await Post.findByIdAndRemove(req.params.id);
+    if (!post) return res.status(404).send('Not Found');
+
+    res.send(post)
+});
 
 
 router.put('/:id/like', verifyObjectId, async (req, res) => {

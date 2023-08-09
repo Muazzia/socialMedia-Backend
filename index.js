@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -19,9 +22,16 @@ const posts = require('./routes/posts');
 const verifyToken = require('./middlewares/verifyToken');
 const verifyObjectId = require('./middlewares/verifyObjectId');
 const updatePost = require('./controllers/updatePost');
+const configureSocket = require('./socket');
 
 
 const app = express();
+
+const httpServer = createServer(app);
+configureSocket(httpServer)
+
+
+
 app.use(cors({
     exposedHeaders: ['x-auth-token'], // Include 'x-auth-token' in the exposed headers
 }));
@@ -68,6 +78,6 @@ app.use(function (err, res, req, next) {
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+httpServer.listen(port, () => {
     console.log(`listening to ${port}`);
 })

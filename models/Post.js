@@ -25,5 +25,15 @@ const validate = (post) => {
     return schema.validate(post);
 }
 
+const validateComments = (comment) => {
+    const schema = Joi.object({
+        userId: Joi.string().max(100).required(),
+        comment: Joi.string().min(1).max(255).required()
+    })
+
+    return schema.validate(comment);
+}
+
 module.exports.Post = Post;
 module.exports.validate = validate;
+module.exports.validateComments = validateComments;

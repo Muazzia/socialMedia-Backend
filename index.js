@@ -23,6 +23,7 @@ const verifyToken = require('./middlewares/verifyToken');
 const verifyObjectId = require('./middlewares/verifyObjectId');
 const updatePost = require('./controllers/updatePost');
 const configureSocket = require('./socket');
+const updateUser = require('./controllers/updateUser');
 
 
 const app = express();
@@ -62,6 +63,7 @@ const upload = multer({ storage });
 
 // routes with files
 app.post('/auth/register', upload.single('picturePath'), register);
+app.put('/users/:id', [verifyToken, verifyObjectId, upload.single('picturePath')], updateUser);
 app.put('/posts/:id', [verifyToken, upload.single('picturePath'), verifyObjectId], updatePost)
 app.post('/posts', [verifyToken, upload.single('picturePath')], createPost);
 

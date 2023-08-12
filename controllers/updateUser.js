@@ -2,34 +2,66 @@ const Joi = require('joi');
 const { User } = require('../models/User');
 const bcrypt = require('bcrypt');
 
+// const updateUser = async (req, res) => {
+//     const { error } = validate(req.body);
+//     if (error) return res.status(400).send(error.message);
+
+//     const picturePath = req.file ? req.file.originalname : null;
+//     if (!picturePath) return res.status(400).send('Pls provide Image');
+
+//     const { firstName, lastName, email, password, location, occupation } = req.body;
+
+//     const salt = await bcrypt.genSalt();
+//     const hashPass = await bcrypt.hash(password, salt);
+
+//     const user = await User.findByIdAndUpdate(req.params.id, {
+//         firstName,
+//         lastName,
+//         email,
+//         password: hashPass,
+//         picturePath,
+//         location,
+//         occupation
+//     }, { new: true });
+
+//     if (!user) return res.status(404).send('User not found.');
+
+//     const removedPassUser = user.toObject();
+//     delete removedPassUser.password;
+//     res.send(removedPassUser);
+
+// }
+
 const updateUser = async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
     const picturePath = req.file ? req.file.originalname : null;
-    if (!picturePath) return res.status(400).send('Pls provide Image');
+    if (!picturePath) return res.status(400).send('Please provide an image');
 
     const { firstName, lastName, email, password, location, occupation } = req.body;
 
     const salt = await bcrypt.genSalt();
     const hashPass = await bcrypt.hash(password, salt);
 
-    const user = await User.findByIdAndUpdate(req.params.id, {
-        firstName,
-        lastName,
-        email,
-        password: hashPass,
-        picturePath,
-        location,
-        occupation
-    }, { new: true });
-
+    let user = await User.findById(req.params.id);
     if (!user) return res.status(404).send('User not found.');
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    user.password = hashPass;
+    user.picturePath = picturePath;
+    user.location = location;
+    user.occupation = occupation;
+
+    user = await user.save(); // Manually call save() to trigger middleware
+
+    // Trigger middleware to update associated posts' userPicturePath
 
     const removedPassUser = user.toObject();
     delete removedPassUser.password;
     res.send(removedPassUser);
-
 }
 
 const validate = (user) => {

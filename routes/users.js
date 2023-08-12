@@ -76,4 +76,16 @@ router.put('/:id/:friendId', [verifyToken, verifyObjectId], async (req, res) => 
     res.send(formatedFriends);
 })
 
+router.patch('/views/:id', [verifyObjectId, verifyToken], async (req, res) => {
+    const id = req.params.id;
+
+    const user = await User.findById(id);
+    if (!user) res.status(404).send('Not Found');
+
+    user.viewedProfile = user.viewedProfile + 1;
+    await user.save();
+
+    res.send(user);
+})
+
 module.exports = router;

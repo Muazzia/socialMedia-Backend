@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+const { Post } = require('./Post')
 
 const schema = new mongoose.Schema({
     firstName: {
@@ -22,6 +23,16 @@ const schema = new mongoose.Schema({
 
 }, { timestamps: true });
 
+schema.pre('save', async function (next) {
+    // Check if the user picturePath has changed
+    if (this.isModified('picturePath')) {
+        console.log('enteres');
+        // Update userPicturePath in associated posts
+        await Post.updateMany({ userId: this._id }, { $set: { userPicturePath: this.picturePath } });
+    }
+
+    next();
+});
 
 
 schema.methods.getAuthToken = function () {

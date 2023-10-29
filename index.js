@@ -79,7 +79,7 @@ app.use('/posts', verifyToken, posts);
 // error
 app.use(function (err, res, req, next) {
     console.log(err);
-    req.status(500).send('Something went bad try again');
+    req.status(500).send('Something went bad try again', err);
 })
 
 

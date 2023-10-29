@@ -1,9 +1,13 @@
 const cloudinary = require('cloudinary').v2;
 
+
 cloudinary.config({
-    secure: true,
+    cloud_name: 'dbmxzpfxd',
+    api_key: '515198196931793',
+    api_secret: '048qB39WCTjOtVIwTewND-sGuD8'
 });
 
+// is ko abhi upload kr k chk kro error jata k ni or main catch walay ko return err kr k daikho
 
 const uploadToCloudinary = async (req, res, next) => {
     /////////////////////////

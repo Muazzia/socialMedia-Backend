@@ -2,6 +2,7 @@ const { Post } = require("../models/Post");
 const Joi = require("joi");
 
 const updatePost = async (req, res) => {
+    const imgSecureUrl = req.imgSecureUrl;
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
@@ -11,7 +12,8 @@ const updatePost = async (req, res) => {
 
     const posts = await Post.findByIdAndUpdate(req.params.id, {
         description: req.body.description,
-        picturePath
+        picturePath,
+        imgSecureUrl
     }, { new: true })
 
     res.send(posts);

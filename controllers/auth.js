@@ -4,6 +4,9 @@ const { validate, User } = require('../models/User');
 
 
 const register = async (req, res) => {
+    const imgSecureUrl = req.imgSecureUrl;
+    console.log(process.env.db);
+
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
@@ -27,6 +30,7 @@ const register = async (req, res) => {
         occupation,
         viewedProfile,
         impressions,
+        imgSecureUrl
     });
 
     const token = user.getAuthToken();

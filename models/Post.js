@@ -11,7 +11,9 @@ const schema = new mongoose.Schema({
     userPicturePath: String,
     picturePath: String,
     likes: { type: Map, of: Boolean },
-    comments: { type: Array, default: [] }
+    comments: { type: Array, default: [] },
+    imgSecureUrl: String,
+    imgSecureUrl: String
 }, { timestamps: true })
 
 const Post = mongoose.model('Post', schema);

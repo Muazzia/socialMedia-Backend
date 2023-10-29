@@ -2,37 +2,10 @@ const Joi = require('joi');
 const { User } = require('../models/User');
 const bcrypt = require('bcrypt');
 
-// const updateUser = async (req, res) => {
-//     const { error } = validate(req.body);
-//     if (error) return res.status(400).send(error.message);
 
-//     const picturePath = req.file ? req.file.originalname : null;
-//     if (!picturePath) return res.status(400).send('Pls provide Image');
-
-//     const { firstName, lastName, email, password, location, occupation } = req.body;
-
-//     const salt = await bcrypt.genSalt();
-//     const hashPass = await bcrypt.hash(password, salt);
-
-//     const user = await User.findByIdAndUpdate(req.params.id, {
-//         firstName,
-//         lastName,
-//         email,
-//         password: hashPass,
-//         picturePath,
-//         location,
-//         occupation
-//     }, { new: true });
-
-//     if (!user) return res.status(404).send('User not found.');
-
-//     const removedPassUser = user.toObject();
-//     delete removedPassUser.password;
-//     res.send(removedPassUser);
-
-// }
 
 const updateUser = async (req, res) => {
+    const imgSecureUrl = req.imgSecureUrl;
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
@@ -54,6 +27,8 @@ const updateUser = async (req, res) => {
     user.picturePath = picturePath;
     user.location = location;
     user.occupation = occupation;
+    user.imgSecureUrl = imgSecureUrl
+
 
     user = await user.save(); // Manually call save() to trigger middleware
 

@@ -7,6 +7,7 @@ cloudinary.config({
     api_secret: '048qB39WCTjOtVIwTewND-sGuD8'
 });
 
+// is ko abhi upload kr k chk kro error jata k ni or main catch walay ko return err kr k daikho
 
 const uploadToCloudinary = async (req, res, next) => {
     /////////////////////////

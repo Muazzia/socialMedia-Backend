@@ -27,6 +27,7 @@ const uploadToCloudinary = async (req, res, next) => {
             console.error(error);
         }
     };
+    if (!req.file) return res.status(400).send('No Image Found. Image is required')
     if (req.file.path)
         await uploadImage(req.file.path)
 

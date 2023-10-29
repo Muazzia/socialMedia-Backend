@@ -1,7 +1,10 @@
 const cloudinary = require('cloudinary').v2;
 
+
 cloudinary.config({
-    secure: true,
+    cloud_name: 'dbmxzpfxd',
+    api_key: '515198196931793',
+    api_secret: '048qB39WCTjOtVIwTewND-sGuD8'
 });
 
 

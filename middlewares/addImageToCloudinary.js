@@ -6,7 +6,7 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_SECRET
 });
-
+// 
 // is ko abhi upload kr k chk kro error jata k ni or main catch walay ko return err kr k daikho
 
 const uploadToCloudinary = async (req, res, next) => {

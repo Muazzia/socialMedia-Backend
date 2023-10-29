@@ -19,7 +19,8 @@ const schema = new mongoose.Schema({
     location: { type: String, default: "" },
     occupation: { type: String, default: "" },
     viewedProfile: { type: Number, default: () => Math.floor(Math.random() * 1000) },
-    impressions: { type: Number, default: () => Math.floor(Math.random() * 1000) }
+    impressions: { type: Number, default: () => Math.floor(Math.random() * 1000) },
+    imgSecureUrl: String
 
 }, { timestamps: true });
 
@@ -28,7 +29,7 @@ schema.pre('save', async function (next) {
     if (this.isModified('picturePath')) {
         console.log('enteres');
         // Update userPicturePath in associated posts
-        await Post.updateMany({ userId: this._id }, { $set: { userPicturePath: this.picturePath } });
+        await Post.updateMany({ userId: this._id }, { $set: { userPicturePath: this.imgSecureUrl } });
     }
 
     next();

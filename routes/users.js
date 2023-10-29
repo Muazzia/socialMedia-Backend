@@ -26,7 +26,8 @@ router.get('/:id/friends', [verifyToken, verifyObjectId], async (req, res) => {
     );
 
     const formatedFriends = friends.map(
-        ({ _id, firstName, lastName, occupation, location, picturePath }) => ({ _id, firstName, lastName, occupation, location, picturePath })
+        ({ _id, firstName, lastName, occupation, location, picturePath,
+            imgSecureUrl }) => ({ _id, firstName, lastName, occupation, location, picturePath, imgSecureUrl })
     );
 
     res.send(formatedFriends);

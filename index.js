@@ -26,6 +26,9 @@ const configureSocket = require('./socket');
 const updateUser = require('./controllers/updateUser');
 
 
+// cloudinary
+const uploadToCloudinary = require('./middlewares/addImageToCloudinary');
+
 const app = express();
 
 const httpServer = createServer(app);
@@ -61,11 +64,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
+
 // routes with files
-app.post('/auth/register', upload.single('picturePath'), register);
-app.put('/users/:id', [verifyToken, verifyObjectId, upload.single('picturePath')], updateUser);
-app.put('/posts/:id', [verifyToken, upload.single('picturePath'), verifyObjectId], updatePost)
-app.post('/posts', [verifyToken, upload.single('picturePath')], createPost);
+app.post('/auth/register', [upload.single('picturePath'), uploadToCloudinary], register);
+app.put('/users/:id', [verifyToken, verifyObjectId, upload.single('picturePath'), uploadToCloudinary], updateUser);
+app.put('/posts/:id', [verifyToken, upload.single('picturePath'), uploadToCloudinary, verifyObjectId], updatePost)
+app.post('/posts', [verifyToken, upload.single('picturePath'), uploadToCloudinary,], createPost);
 
 // Routes
 app.use('/auth', auth);

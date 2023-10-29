@@ -3,6 +3,7 @@ const { validate, Post } = require("../models/Post");
 const { User } = require("../models/User");
 
 const createPost = async (req, res) => {
+    const imgSecureUrl = req.imgSecureUrl;
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
@@ -19,10 +20,11 @@ const createPost = async (req, res) => {
         lastName: user.lastName,
         location: user.location,
         description,
-        userPicturePath: user.picturePath,
+        userPicturePath: user.imgSecureUrl,
         picturePath,
         likes: {},
-        comments: []
+        comments: [],
+        imgSecureUrl,
     })
 
     await post.save();

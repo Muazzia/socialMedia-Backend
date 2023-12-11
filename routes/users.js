@@ -72,7 +72,8 @@ router.put('/:id/:friendId', [verifyToken, verifyObjectId], async (req, res) => 
         user.friends.map(id => User.findById(id))
     );
 
-    const formatedFriends = List.map(({ _id, firstName, lastName, occupation, location, picturePath }) => ({ _id, firstName, lastName, occupation, location, picturePath }));
+
+    const formatedFriends = List.map(({ _id, firstName, lastName, occupation, location, picturePath, imgSecureUrl }) => ({ _id, firstName, lastName, occupation, location, picturePath, imgSecureUrl }));
 
     res.send(formatedFriends);
 })
